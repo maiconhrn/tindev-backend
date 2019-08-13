@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const routes = require('./src/routes');
 const cors = require('cors');
 
+require('dotenv').config();
+
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
@@ -15,7 +17,7 @@ io.on('connection', socket => {
     connectedUsers[user] = socket.id;
 });
 
-mongoose.connect('mongodb+srv://maiconhrn:Maicon321@cluster0-ncpod.mongodb.net/tindev?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGO_URL,
     { useNewUrlParser: true });
 
 app.use((req, res, next) => {
