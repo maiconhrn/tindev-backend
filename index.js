@@ -2,8 +2,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./src/routes');
 const cors = require('cors');
+const { getDotEnvFilePath } = require('./src/helpers/EnvHelper');
 
-require('dotenv').config();
+require('dotenv').config({
+    path: getDotEnvFilePath()
+});
 
 const app = express();
 const server = require('http').Server(app);
