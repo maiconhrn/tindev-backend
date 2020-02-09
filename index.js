@@ -1,3 +1,4 @@
+const fs = require('fs');
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./src/routes');
@@ -8,8 +9,12 @@ require('dotenv').config({
     path: getDotEnvFilePath()
 });
 
+const privateKey = fs.readFileSync('selfsigned.key', 'utf8');
+const certificate = fs.readFileSync('selfsigned.crt', 'utf8');
+const credentials = { key: privateKey, cert: certificate }
+
 const app = express();
-const server = require('http').Server(app);
+const server = require('https').Server(credentials, app);
 const io = require('socket.io')(server);
 
 const connectedUsers = {};
